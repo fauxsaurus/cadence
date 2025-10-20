@@ -41,6 +41,9 @@ const App = () => {
 
 	return (
 		<>
+			<header>
+				<h1>Cadence</h1>
+			</header>
 			{timeStates.map((times, i) => (
 				<Timer
 					config={configs[i]}
