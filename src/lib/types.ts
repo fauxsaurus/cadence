@@ -9,10 +9,13 @@ export type IConfig = {
 	categories: string[]
 }
 
-type IMsSinceEpoch = number
+export type IMsSinceEpoch = number
+type IPaused = -1
+
+type IPrevElapsedTime = IMsSinceEpoch
 
 export type IState = {
-	isPaused: boolean
-	startedAt?: IMsSinceEpoch
-	timeElapsedB4PrevPauses: IMsSinceEpoch
+	currentTime: IMsSinceEpoch
+	/** @note [isRunning, time elapsed during prior pauses] */
+	times: [IPaused | IMsSinceEpoch, IPrevElapsedTime]
 }
