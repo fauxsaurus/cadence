@@ -1,29 +1,64 @@
-import {useState} from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import {useEffect, useState} from 'react'
+import {Timer} from './components/timer'
+import {defaultConfig} from './config'
+import {calculateDerivativeState, createConfig, createTimeState, setAt, type IState} from './lib'
+
 import './App.css'
 
-function App() {
-	const [count, setCount] = useState(0)
+const App = () => {
+	const [configs, setConfigs] = useState(defaultConfig)
+	const [timeStates, setTimeStates] = useState(configs.map(() => createTimeState()))
+
+	const [currentTime, setCurrentTime] = useState(Date.now())
+
+	useEffect(() => {
+		const interval = setInterval(() => setCurrentTime(Date.now()), 1000)
+
+		return () => clearInterval(interval)
+	})
+
+	const addTimer = () => {
+		setConfigs(configs => configs.concat([createConfig()]))
+		setTimeStates(states => states.concat([createTimeState()]))
+	}
+
+	const resetTimer = (i: number) => {
+		setTimeStates(timeStates => setAt(timeStates, i, createTimeState()))
+	}
+
+	const toggleTimer = (i: number) => {
+		const state = {currentTime, times: timeStates[i]}
+		const derivativeState = calculateDerivativeState(configs[i], state)
+
+		// isPaused = start, isDone = reset, isRunning = pause
+		const newTimes: IState['times'] = derivativeState.isPaused
+			? [currentTime, derivativeState.msElapsedFromPriorPauses]
+			: derivativeState.isDone
+			? createTimeState()
+			: [
+					-1,
+					derivativeState.msElapsedFromPriorPauses +
+						derivativeState.msElapsedSinceLastStart,
+			  ]
+
+		setTimeStates(timeStates => setAt(timeStates, i, newTimes))
+	}
 
 	return (
 		<>
-			<div>
-				<a href="https://vite.dev" target="_blank">
-					<img src={viteLogo} className="logo" alt="Vite logo" />
-				</a>
-				<a href="https://react.dev" target="_blank">
-					<img src={reactLogo} className="logo react" alt="React logo" />
-				</a>
-			</div>
-			<h1>Vite + React</h1>
-			<div className="card">
-				<button onClick={() => setCount(count => count + 1)}>count is {count}</button>
-				<p>
-					Edit <code>src/App.tsx</code> and save to test HMR
-				</p>
-			</div>
-			<p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+			<header>
+				<h1>Cadence</h1>
+				<button onClick={addTimer}>+</button>
+			</header>
+			{timeStates.map((times, i) => (
+				<Timer
+					config={configs[i]}
+					state={{currentTime, times}}
+					key={i}
+					onToggle={() => toggleTimer(i)}
+					onReset={() => resetTimer(i)}
+				/>
+			))}
 		</>
 	)
 }
