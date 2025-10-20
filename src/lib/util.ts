@@ -1,24 +1,22 @@
 import type {IConfig, IState} from './types'
 
+// DATA
 export const createConfig = (): IConfig => ({
 	label: 'Name',
 	routine: [],
 	categories: [],
 })
 
-export const createState = (): IState => ({
-	isPaused: true,
-	startedAt: undefined,
-	timeElapsedB4PrevPauses: 0,
-})
+export const createTimeState = (): IState['times'] => [-1, 0]
 
-export const config2totalDuration = (config: IConfig) =>
+const routine2totalDuration = (config: IConfig) =>
 	config.routine
 		.map(({reps, sets = 1}) => reps.map(([_label, duration]) => duration).reduce(sum, 0) * sets)
 		.reduce(sum, 0)
 
 const sum = (a: number, b: number) => a + b
 
+// FORMATTING
 export const formatTime = (seconds: number) => {
 	const h = Math.floor(seconds / 3600)
 	const m = Math.floor((seconds % 3600) / 60)
