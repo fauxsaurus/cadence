@@ -15,6 +15,27 @@ const App = () => {
 		return () => clearInterval(interval)
 	})
 
+	const resetTimer = (i: number) => {
+		setTimeStates(timeStates => setAt(timeStates, i, createTimeState()))
+	}
+
+	const toggleTimer = (i: number) => {
+		const state = {currentTime, times: timeStates[i]}
+		const derivativeState = calculateDerivativeState(configs[i], state)
+
+		// isPaused = start, isDone = reset, isRunning = pause
+		const newTimes: IState['times'] = derivativeState.isPaused
+			? [currentTime, derivativeState.msElapsedFromPriorPauses]
+			: derivativeState.isDone
+			? createTimeState()
+			: [
+					-1,
+					derivativeState.msElapsedFromPriorPauses +
+						derivativeState.msElapsedSinceLastStart,
+			  ]
+
+		setTimeStates(timeStates => setAt(timeStates, i, newTimes))
+	}
 
 	return (
 		<>
