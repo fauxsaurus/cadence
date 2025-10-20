@@ -1,0 +1,34 @@
+import type {IConfig, IState} from './types'
+
+export const createConfig = (): IConfig => ({
+	label: 'Name',
+	routine: [],
+	categories: [],
+})
+
+export const createState = (): IState => ({
+	isPaused: true,
+	startedAt: undefined,
+	timeElapsedB4PrevPauses: 0,
+})
+
+export const config2totalDuration = (config: IConfig) =>
+	config.routine
+		.map(({reps, sets = 1}) => reps.map(([_label, duration]) => duration).reduce(sum, 0) * sets)
+		.reduce(sum, 0)
+
+const sum = (a: number, b: number) => a + b
+
+export const formatTime = (seconds: number) => {
+	const h = Math.floor(seconds / 3600)
+	const m = Math.floor((seconds % 3600) / 60)
+	const s = seconds % 60
+
+	const firstNonEmptyI = [h, m, s].findIndex(num => num)
+	if (firstNonEmptyI === -1) return '00 sec'
+
+	const relevantUnits = [h, m, s].slice(firstNonEmptyI)
+	const label = ['', 'sec', 'min', 'hr'][relevantUnits.length]
+
+	return relevantUnits.map(num => num.toString().padStart(2, '0')).join(':') + ' ' + label
+}
