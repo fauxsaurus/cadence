@@ -1,6 +1,8 @@
 import {useEffect, useState} from 'react'
+import {Timer} from './components/timer'
 import {defaultConfig} from './config'
 import {calculateDerivativeState, createConfig, createTimeState, setAt, type IState} from './lib'
+
 import './App.css'
 
 const App = () => {
@@ -39,6 +41,15 @@ const App = () => {
 
 	return (
 		<>
+			{timeStates.map((times, i) => (
+				<Timer
+					config={configs[i]}
+					state={{currentTime, times}}
+					key={i}
+					onToggle={() => toggleTimer(i)}
+					onReset={() => resetTimer(i)}
+				/>
+			))}
 		</>
 	)
 }
