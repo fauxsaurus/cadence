@@ -50,15 +50,17 @@ const App = () => {
 				<h1>Cadence</h1>
 				<button onClick={addTimer}>+</button>
 			</header>
-			{timeStates.map((times, i) => (
-				<Timer
-					config={configs[i]}
-					state={{currentTime, times}}
-					key={i}
-					onToggle={() => toggleTimer(i)}
-					onReset={() => resetTimer(i)}
-				/>
-			))}
+			<main>
+				{timeStates.map((times, i) => (
+					<Timer
+						config={configs[i]}
+						state={{currentTime, times}}
+						key={i}
+						onToggle={() => toggleTimer(i)}
+						onReset={() => resetTimer(i)}
+					/>
+				))}
+			</main>
 		</>
 	)
 }
