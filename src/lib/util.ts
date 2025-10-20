@@ -9,6 +9,32 @@ export const createConfig = (): IConfig => ({
 
 export const createTimeState = (): IState['times'] => [-1, 0]
 
+export const calculateDerivativeState = (config: IConfig, state: IState) => {
+	const totalDurationSec = routine2totalDuration(config)
+
+	const [startTime, msElapsedFromPriorPauses] = state.times
+	const isPaused = state.times[0] === -1
+
+	const msElapsedSinceLastStart = isPaused ? 0 : state.currentTime - startTime
+
+	const timeLeftSec =
+		totalDurationSec - Math.floor((msElapsedFromPriorPauses + msElapsedSinceLastStart) / 1000)
+
+	const isDone = timeLeftSec <= 0
+
+	return {
+		isDone,
+		isPaused,
+
+		msElapsedFromPriorPauses,
+		msElapsedSinceLastStart,
+
+		totalDurationSec,
+		startTime,
+		timeLeftSec,
+	}
+}
+
 const routine2totalDuration = (config: IConfig) =>
 	config.routine
 		.map(({reps, sets = 1}) => reps.map(([_label, duration]) => duration).reduce(sum, 0) * sets)
