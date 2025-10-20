@@ -17,6 +17,11 @@ const App = () => {
 		return () => clearInterval(interval)
 	})
 
+	const addTimer = () => {
+		setConfigs(configs => configs.concat([createConfig()]))
+		setTimeStates(states => states.concat([createTimeState()]))
+	}
+
 	const resetTimer = (i: number) => {
 		setTimeStates(timeStates => setAt(timeStates, i, createTimeState()))
 	}
@@ -43,6 +48,7 @@ const App = () => {
 		<>
 			<header>
 				<h1>Cadence</h1>
+				<button onClick={addTimer}>+</button>
 			</header>
 			{timeStates.map((times, i) => (
 				<Timer
