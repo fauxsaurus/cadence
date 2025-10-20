@@ -1,5 +1,9 @@
 import type {IConfig, IState} from './types'
 
+// ARRAY
+export const setAt = <T,>(array: T[], i: number, item: T) =>
+	array.slice(0, i).concat([item]).concat(array.slice(i + 1)); // prettier-ignore
+
 // DATA
 export const createConfig = (): IConfig => ({
 	label: 'Name',
