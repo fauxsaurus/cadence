@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {Timer} from './components/timer'
+import {Timer} from './components/Timer'
 import {defaultConfig} from './config'
 import {calculateDerivativeState, createConfig, createTimeState, setAt, type IState} from './lib'
 

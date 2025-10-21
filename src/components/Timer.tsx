@@ -1,4 +1,5 @@
 import {formatTime, type IConfig, type IState, calculateDerivativeState} from '../lib'
+import './timer.css'
 
 type FN<I extends unknown[] = [], O = void> = (...args: I) => O
 
@@ -14,11 +15,13 @@ export const Timer = ({config, state, onReset, onToggle}: IProps) => {
 	const {isDone, isPaused, timeLeftSec} = calculateDerivativeState(config, state)
 
 	return (
-		<section data-done={isDone}>
+		<section data-component="timer" data-done={isDone}>
 			<header>
+				<button onClick={onReset} disabled={isPaused}>
+					Reset
+				</button>
 				{config.label}: {formatTime(timeLeftSec)}{' '}
 				<button onClick={onToggle}>{isPaused ? 'Start' : 'Stop'}</button>
-				<button onClick={onReset}>Reset</button>
 			</header>
 			{config.routine.map(({reps, sets = 1}, i) => (
 				<div key={i}>
@@ -31,7 +34,7 @@ export const Timer = ({config, state, onReset, onToggle}: IProps) => {
 							)
 						})}
 					</div>
-					{sets > 1 && <div>x{sets}</div>}
+					<div>x{sets}</div>
 				</div>
 			))}
 			<footer>{config.categories.join(' ')}</footer>
