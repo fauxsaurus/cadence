@@ -1,7 +1,4 @@
 [data-component='timer'] {
-	--color-foreground: #000;
-	--color-background: #fff;
-
 	background: var(--color-background);
 	border-collapse: collapse;
 	box-sizing: border-box;
