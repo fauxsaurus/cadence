@@ -69,7 +69,7 @@
 	}
 
 	&[data-started='true'] [data-progress='total'] {
-		animation-name: progress-horizontal;
+		animation-name: progressHorizontal;
 	}
 
 	&[data-paused='false'] [data-progress='total'] {
@@ -84,7 +84,7 @@
 	}
 }
 
-@keyframes progress-horizontal {
+@keyframes progressHorizontal {
 	0% {
 		background-size: 0% 100%;
 	}
