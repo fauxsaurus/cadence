@@ -9,7 +9,7 @@
 
 	button {
 		background: transparent;
-		color: var(--color-foreground);
+		color: inherit;
 		border: 0;
 	}
 
@@ -57,7 +57,12 @@
 	}
 
 	/** ANIMATIONS */
-	/** total progress */
+	/** flash when done */
+	&[data-done='true'] {
+		animation: flash 1.2s infinite alternate ease-in-out;
+	}
+
+	/** increment total progress */
 	&[data-started='false'] [data-progress='total'] {
 		animation-name: none;
 		background-size: 0% 100%;
@@ -85,5 +90,14 @@
 	}
 	100% {
 		background-size: 100% 100%;
+	}
+}
+
+@keyframes flash {
+	0% {
+		filter: invert(0%);
+	}
+	100% {
+		filter: invert(100%);
 	}
 }
