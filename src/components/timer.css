@@ -84,20 +84,20 @@
 	}
 }
 
-@keyframes progressHorizontal {
-	0% {
-		background-size: 0% 100%;
-	}
-	100% {
-		background-size: 100% 100%;
-	}
-}
-
 @keyframes flash {
 	0% {
 		filter: invert(0%);
 	}
 	100% {
 		filter: invert(100%);
+	}
+}
+
+@keyframes progressHorizontal {
+	0% {
+		background-size: 0% 100%;
+	}
+	100% {
+		background-size: 100% 100%;
 	}
 }
