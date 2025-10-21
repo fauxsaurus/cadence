@@ -24,11 +24,10 @@ export const calculateDerivativeState = (config: IConfig, state: IState) => {
 	const timeLeftSec =
 		totalDurationSec - Math.floor((msElapsedFromPriorPauses + msElapsedSinceLastStart) / 1000)
 
-	const isDone = timeLeftSec <= 0
-
 	return {
-		isDone,
+		isDone: timeLeftSec <= 0,
 		isPaused,
+		isStarted: timeLeftSec < totalDurationSec,
 
 		msElapsedFromPriorPauses,
 		msElapsedSinceLastStart,
@@ -64,5 +63,5 @@ export const formatTime = (seconds: number) => {
 
 	const time = relevantUnits.map(num => num.toString().padStart(2, '0')).join(':')
 
-	return `${sign}${time} ${unit}`
+	return [sign + time, unit]
 }

@@ -1,0 +1,89 @@
+[data-component='timer'] {
+	--color-foreground: #000;
+	--color-background: #fff;
+
+	background: var(--color-background);
+	border-collapse: collapse;
+	box-sizing: border-box;
+	color: var(--color-foreground);
+
+	button {
+		background: transparent;
+		color: var(--color-foreground);
+		border: 0;
+	}
+
+	[style*='background-size'] {
+		background-image: linear-gradient(#fc0 0%, #fc0 100%);
+		background-repeat: no-repeat;
+	}
+
+	tr {
+		height: var(--min-touch-target);
+	}
+
+	tr > td:first-child,
+	tr > th:first-child {
+		padding: 0 0.5rem;
+	}
+
+	th {
+		text-align: inherit;
+	}
+
+	tbody tr {
+		border-top: 1px solid var(--color-foreground);
+	}
+	tbody tr:last-child {
+		border-bottom: 1px solid var(--color-foreground);
+	}
+
+	td:nth-child(2) {
+		padding-right: 0.25rem;
+		text-align: right;
+	}
+
+	td:nth-child(4) {
+		text-align: center;
+		width: var(--min-touch-target);
+	}
+
+	td[data-empty='false'] {
+		border-left: 1px solid var(--color-foreground);
+	}
+
+	tfoot {
+		font-size: 1rem;
+	}
+
+	/** ANIMATIONS */
+	/** total progress */
+	&[data-started='false'] [data-progress='total'] {
+		animation-name: none;
+		background-size: 0% 100%;
+	}
+
+	&[data-started='true'] [data-progress='total'] {
+		animation-name: progress-horizontal;
+	}
+
+	&[data-paused='false'] [data-progress='total'] {
+		animation-play-state: running;
+	}
+
+	[data-progress='total'] {
+		animation-timing-function: linear;
+		animation-play-state: paused;
+		background-image: linear-gradient(#fc0 0%, #fc0 100%);
+		background-repeat: no-repeat;
+	}
+}
+
+@keyframes progress-horizontal {
+	0% {
+		background-size: 0% 100%;
+	}
+	100% {
+		background-size: 100% 100%;
+	}
+}
