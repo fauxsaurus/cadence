@@ -8,10 +8,11 @@ type IProps = {
 	state: IState
 
 	onToggle: FN
+	onRemove: FN
 	onReset: FN
 }
 
-export const Timer = ({config, state, onReset, onToggle}: IProps) => {
+export const Timer = ({config, state, ...on}: IProps) => {
 	const derivativeState = calculateDerivativeState(config, state)
 	const {isDone, isPaused, isStarted, timeLeftSec, totalDurationSec} = derivativeState
 
@@ -33,17 +34,20 @@ export const Timer = ({config, state, onReset, onToggle}: IProps) => {
 					<td>{displayTimeLeft}</td>
 					<td>{unit}</td>
 					<td>
-						<button onClick={onToggle}>{isPaused ? 'Start' : 'Stop'}</button>
+						<button onClick={on.onToggle}>{isPaused ? 'Start' : 'Stop'}</button>
 					</td>
 				</tr>
 			</thead>
 			<tfoot>
 				<tr>
-					<td colSpan={3}>{config.categories.join(' ')}</td>
-					<td>
-						<button onClick={onReset} hidden={!isStarted}>
-							Reset
-						</button>
+					<td colSpan={4}>
+						<div className="button-group">
+							<button onClick={on.onRemove}>Delete</button>
+							<button onClick={on.onReset} hidden={!isStarted}>
+								Reset
+							</button>
+						</div>
+						{config.categories.join(' ')}
 					</td>
 				</tr>
 			</tfoot>

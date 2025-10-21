@@ -1,7 +1,14 @@
 import {useEffect, useState} from 'react'
 import {Timer} from './components/Timer'
 import {defaultConfig} from './config'
-import {calculateDerivativeState, createConfig, createTimeState, setAt, type IState} from './lib'
+import {
+	calculateDerivativeState,
+	createConfig,
+	createTimeState,
+	removeAt,
+	setAt,
+	type IState,
+} from './lib'
 
 import './App.css'
 
@@ -20,6 +27,11 @@ const App = () => {
 	const addTimer = () => {
 		setConfigs(configs => configs.concat([createConfig()]))
 		setTimeStates(states => states.concat([createTimeState()]))
+	}
+
+	const removeTimer = (i: number) => {
+		setConfigs(configs => removeAt(configs, i))
+		setTimeStates(states => removeAt(states, i))
 	}
 
 	const resetTimer = (i: number) => {
@@ -57,8 +69,9 @@ const App = () => {
 						config={configs[i]}
 						state={{currentTime, times}}
 						key={i}
-						onToggle={() => toggleTimer(i)}
+						onRemove={() => removeTimer(i)}
 						onReset={() => resetTimer(i)}
+						onToggle={() => toggleTimer(i)}
 					/>
 				))}
 			</main>

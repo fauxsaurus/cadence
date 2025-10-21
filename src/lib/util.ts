@@ -1,6 +1,9 @@
 import type {IConfig, IState} from './types'
 
 // ARRAY
+export const removeAt = <T>(array: T[], i: number) =>
+	array.slice(0, i).concat(array.slice(i + 1)) // prettier-ignore
+
 export const setAt = <T,>(array: T[], i: number, item: T) =>
 	array.slice(0, i).concat([item]).concat(array.slice(i + 1)); // prettier-ignore
 

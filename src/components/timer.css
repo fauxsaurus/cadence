@@ -4,6 +4,10 @@
 	box-sizing: border-box;
 	color: var(--color-foreground);
 
+	.button-group {
+		width: 100%;
+	}
+
 	button {
 		background: transparent;
 		color: inherit;
