@@ -1,0 +1,14 @@
+body > header {
+	display: flex;
+	justify-content: space-between;
+}
+
+main {
+	align-items: flex-start;
+	display: flex;
+	gap: 0.5rem;
+
+	[data-component] {
+		min-width: 35ch;
+	}
+}

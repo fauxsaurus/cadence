@@ -47,6 +47,7 @@ const App = () => {
 	return (
 		<>
 			<header>
+				<button disabled></button>
 				<h1>Cadence</h1>
 				<button onClick={addTimer}>+</button>
 			</header>
